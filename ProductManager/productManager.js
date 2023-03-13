@@ -17,7 +17,7 @@ class ProductManager {
     }
 
     addProduct = async (newProduct) => {
-        const products =  await this.getProducts()
+        const products =  await this.getProducts();
         try {
             let newId;
             products.length === 0 ? newId = 1 
@@ -27,30 +27,32 @@ class ProductManager {
             await this.writeFile(products);
             return newObj.id;
         } catch (error) {
-            console.error("Hubo un error al agregar el producto.\n${error}");
+            console.error(`Hubo un error al agregar el producto.\n ${error}`);
         }
     }
 
-    getProducts = async () => { 
+    getProducts = async () => {
         try {
-            if (fs.existsSync(this.path)) {
+            if (fs.existsSync(this.path) && (fs.readFileSync(this.path).length !== 0)) { 
                 const products = await fs.promises.readFile(this.path, 'utf-8');
                 return JSON.parse(products);
             }
-            // return []
+            else {
+                console.info("Creando...");
+                return []
+            }
         } catch (error) {
-            if (err.message.includes('no such file or directory')) {
+            if (error.message.includes('no such file or directory')) {
                 console.error("\nAl parecer el archivo o directorio no existe.");
                 return [];
             }
-        }      
-
+        }
     }
 
     getProductById = async (id) => {
         let products = await this.getProducts();
         try {
-            const obj = products.find(id => products-id === id);
+            const obj = products.find(product => product.id === id);
             return obj ? obj : null;
         } catch (error) {
             console.error(`\nError al obtener producto. ${error}`);
@@ -63,13 +65,22 @@ class ProductManager {
     }
 
     deleteProduct = async (id) => {
-        let products = await this.getProducts();
-        try {
-            products = products.filter(product => product.id != id);
-            await this.writeFile(products);
-        } catch (error) {
-            console.error(`\nError al eliminar producto. ${error}`);
-        }  
+        let exists = await this.getProductById(id);
+        if (exists) {   
+            let products = await this.getProducts();
+            try {
+                products = products.filter(product => product.id != id);
+                await this.writeFile(products);
+                const updatedList = await this.getProducts();
+                return updatedList;
+            } catch (error) {
+                console.error(`\nError al eliminar producto. ${error}`);
+            }  
+        }
+        else {
+            console.log(`\nEste producto no existe.`);
+            return null;
+        }
     }
 }
 
@@ -77,4 +88,3 @@ class ProductManager {
 module.exports = {
     ProductManager
 }
-
