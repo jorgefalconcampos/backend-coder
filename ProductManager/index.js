@@ -23,6 +23,10 @@ const test = async () => {
         console.log(`Se creó el producto con el ID ${resp}`);
     });
 
+    await products.updateProduct(obj).then((resp) => {
+        console.log(`Se actualizó el producto con el ID ${resp}`);
+    });
+
     await products.getProducts().then((resp) => {
         console.log("Se obtuvieron los siguientes productos: \n");
         console.log(resp);
@@ -43,12 +47,12 @@ const test = async () => {
             console.log(`Ocurrió el siguiente error: \n${err}`);
         });
         
-    await products.deleteProduct(id).then((resp) => {
-        if (resp) {
-            console.log(`Se eliminó el producto con el ID ${id}. Nueva lista de productos:\n`);
-            console.log(resp);
-        }
-    });
+    // await products.deleteProduct(id).then((resp) => {
+    //     if (resp) {
+    //         console.log(`Se eliminó el producto con el ID ${id}. Nueva lista de productos:\n`);
+    //         console.log(resp);
+    //     }
+    // });
 };
 
 test();

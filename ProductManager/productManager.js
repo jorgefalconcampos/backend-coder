@@ -17,11 +17,12 @@ class ProductManager {
     }
 
     addProduct = async (newProduct) => {
-        const products =  await this.getProducts();
+        const products = await this.getProducts();
         try {
             let newId;
-            products.length === 0 ? newId = 1 
-            : newId = products[products.length-1].id+1;
+            products.length === 0 
+                ? newId = 1 
+                : newId = products[products.length-1].id+1;
             let newObj = { ...newProduct, id: newId};
             products.push(newObj);
             await this.writeFile(products);
@@ -60,6 +61,16 @@ class ProductManager {
     }
 
     updateProduct = async (id) => {
+        //const products = await this.getProducts();
+        try {
+
+            // spread operator?
+            
+        } catch (error) {
+            
+        }
+
+
         let products = await this.getProducts();
         let producToUpdate = this.getProductById(id);
     }
