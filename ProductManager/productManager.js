@@ -1,11 +1,12 @@
 const fs = require('fs')
 
 class ProductManager {
+
     constructor(path) {
         this.path = path;
     }
 
-    writeFile = async (data) => {
+    #writeFile = async (data) => {
         try {
             await fs.promises.writeFile(
                 this.path, JSON.stringify(data, null, 2)
@@ -16,6 +17,9 @@ class ProductManager {
         }
     }
 
+    // validar objeto, con las propiedades requeridas solamente
+    // throw error si no es lo que queremos (tipo de dato, campos)
+
     addProduct = async (newProduct) => {
         const products = await this.getProducts();
         try {
@@ -25,7 +29,7 @@ class ProductManager {
                 : newId = products[products.length-1].id+1;
             let newObj = { ...newProduct, id: newId};
             products.push(newObj);
-            await this.writeFile(products);
+            await this.#writeFile(products);
             return newObj.id;
         } catch (error) {
             console.error(`Hubo un error al agregar el producto.\n ${error}`);
@@ -60,19 +64,24 @@ class ProductManager {
         }      
     }
 
-    updateProduct = async (id) => {
-        //const products = await this.getProducts();
+    updateProduct = async (id, updateData) => {
+        const products = await this.getProducts();
         try {
-
-            // spread operator?
+    
+            const isId = (element) => { return element.id === id; }
             
+            const index = products.findIndex(isId);
+
+            let oldData = products[index];
+
+            let newData = { ...oldData, ...updateData };
+    
+            products.splice(index, 1, newData);
+
+            await this.#writeFile(products);
         } catch (error) {
-            
+            console.error("Hubo un error al actualizar el producto");
         }
-
-
-        let products = await this.getProducts();
-        let producToUpdate = this.getProductById(id);
     }
 
     deleteProduct = async (id) => {
@@ -81,7 +90,7 @@ class ProductManager {
             let products = await this.getProducts();
             try {
                 products = products.filter(product => product.id != id);
-                await this.writeFile(products);
+                await this.#writeFile(products);
                 const updatedList = await this.getProducts();
                 return updatedList;
             } catch (error) {
