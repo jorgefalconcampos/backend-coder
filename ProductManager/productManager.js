@@ -8,17 +8,27 @@ class ProductManager {
 
     #writeFile = async (data) => {
         try {
-            await fs.promises.writeFile(
-                this.path, JSON.stringify(data, null, 2)
-            );
+            await fs.promises.writeFile(this.path, JSON.stringify(data, null, 2));
         }
-        catch (err) {
-            console.error(`Error: \n${err}`);
+        catch (err) { 
+            console.error(`\n${err}`); 
         }
     }
 
-    // validar objeto, con las propiedades requeridas solamente
-    // throw error si no es lo que queremos (tipo de dato, campos)
+    #validateProductFormatData (data) {
+        const { title, description, price, thumbnail, code, stock } = data;
+        if (title && description && price && typeof(price) === "number" && thumbnail && code && stock && typeof(stock) === "number" ) { 
+            return true;
+        } else { return false; }
+        // const { title, description, price, thumbnail, code, stock } = data;
+        // if (title && description && price && !isNaN(price) && thumbnail && code && stock) {
+        //     return { title, description, price, thumbnail, code, stock };
+        // }
+        // else {
+        //     throw new Error("Faltan campos o estos tienen un formato incorrecto.");
+        // }
+        
+    }
 
     addProduct = async (newProduct) => {
         const products = await this.getProducts();
@@ -28,9 +38,17 @@ class ProductManager {
                 ? newId = 1 
                 : newId = products[products.length-1].id+1;
             let newObj = { ...newProduct, id: newId};
-            products.push(newObj);
-            await this.#writeFile(products);
-            return newObj.id;
+
+            let dataIsOk = this.#validateProductFormatData(newObj);
+
+            if (dataIsOk) {
+                products.push(newObj);
+                await this.#writeFile(products);
+                return newObj.id;
+            } 
+            else {
+                throw new Error("Faltan campos o estos tienen un formato incorrecto.");
+            }
         } catch (error) {
             console.error(`Hubo un error al agregar el producto.\n ${error}`);
         }
@@ -67,20 +85,20 @@ class ProductManager {
     updateProduct = async (id, updateData) => {
         const products = await this.getProducts();
         try {
-    
             const isId = (element) => { return element.id === id; }
-            
             const index = products.findIndex(isId);
-
-            let oldData = products[index];
-
-            let newData = { ...oldData, ...updateData };
-    
-            products.splice(index, 1, newData);
-
-            await this.#writeFile(products);
+            if (index !== -1) {
+                let oldData = products[index];
+                let newData = { ...oldData, ...updateData };
+                products.splice(index, 1, newData);
+                await this.#writeFile(products);
+                return true;
+            }
+            else {
+                throw new Error("No se encontró un producto con ese ID");
+            }           
         } catch (error) {
-            console.error("Hubo un error al actualizar el producto");
+            console.error(`Hubo un error al actualizar el producto.\n ${error}`);
         }
     }
 

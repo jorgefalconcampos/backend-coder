@@ -1,24 +1,29 @@
-const { error } = require("console");
 const { ProductManager } = require("./productManager");
 const path = "./files/productos.json";
 
 const products = new ProductManager(path);
 
 const test = async () => {
+
+    // todo el código siguiente es funcional, comentar o descomentar las líneas que se requieran
+
     // await products.getProducts().then((resp) => {
     //     console.log("Se obtuvieron los siguientes productos: \n");
     //     console.log(resp);
     // });
 
     const obj = {
-        title: "producto prueba actualizado",
-        description: "Este es un producto prueba actualizado",
-        pepe: "pepe",
-        id: 50
+        title: "producto prueba",
+        description: "Este es un producto prueba ",
+        price: 200,
+        thumbnail: "sin imagen",
+        code: "123abc",
+        stock: 20
     };
 
-    // await products.addProduct(obj).then((resp) => {
-    //     console.log(`Se creó el producto con el ID ${resp}`);
+    // await products.addProduct(obj)
+    //     .then((resp) => {
+    //         resp !== undefined ? console.log(`Se creó el producto con el ID ${resp}`) : "";
     // });
 
     // await products.updateProduct(obj).then((resp) => {
@@ -30,15 +35,12 @@ const test = async () => {
     //     console.log(resp);
     // });
 
-    let id = 5; // <--- ID a buscar
+    // let id = 5; // <--- ID a buscar
 
-    await products.updateProduct(id, obj)
-        .then(() => {
-            console.log("ok");
-        })
-        .catch((err) => {
-            console.log(`Ocurrió el siguiente error: \n${err}`);
-        })
+    // await products.updateProduct(id, obj)
+    //     .then((resp) => {
+    //         resp == true ? console.log("Producto actualizado.") : ""
+    // });
 
     // await products.getProductById(id)
     //     .then((resp) => {
@@ -50,7 +52,7 @@ const test = async () => {
     //         }
     //     })
     //     .catch((err) => {
-    //         console.log(`Ocurrió el siguiente error: \n${err}`);
+    //         console.log(`Ocurrió el siguiente error: \n ${err}`);
     //     });
         
     // await products.deleteProduct(id).then((resp) => {
