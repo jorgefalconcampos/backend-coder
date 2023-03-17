@@ -34,6 +34,11 @@ app.get("/usuario/:userId", (req, res) => {
 })
 
 
+
+
+
+
+
 app.listen(8080, () => {
-    console.log("servidoe en 8080");
+    console.log("servidor en 8080");
 })
