@@ -12,14 +12,14 @@ const test = async () => {
     //     console.log(resp);
     // });
 
-    const obj = {
-        title: "producto prueba",
-        description: "Este es un producto prueba ",
-        price: 200,
-        thumbnail: "sin imagen",
-        code: "123abc",
-        stock: 20
-    };
+    // const obj = {
+    //     title: "producto prueba",
+    //     description: "Este es un producto prueba ",
+    //     price: 200,
+    //     thumbnail: "sin imagen",
+    //     code: "123abc",
+    //     stock: 20
+    // };
 
     // await products.addProduct(obj)
     //     .then((resp) => {
@@ -35,25 +35,25 @@ const test = async () => {
     //     console.log(resp);
     // });
 
-    // let id = 5; // <--- ID a buscar
+    let id = 5; // <--- ID a buscar
 
     // await products.updateProduct(id, obj)
     //     .then((resp) => {
     //         resp == true ? console.log("Producto actualizado.") : ""
     // });
 
-    // await products.getProductById(id)
-    //     .then((resp) => {
-    //         if (resp !== null) {
-    //             console.log(`Se encontró el siguiente producto con el ID ${id}: \n`);
-    //             console.log(resp);
-    //         } else {
-    //             throw new Error("Al parecer no existe un objeto con ese ID.");
-    //         }
-    //     })
-    //     .catch((err) => {
-    //         console.log(`Ocurrió el siguiente error: \n ${err}`);
-    //     });
+    await products.getProductById(id)
+        .then((resp) => {
+            if (resp !== null) {
+                console.log(`Se encontró el siguiente producto con el ID ${id}: \n`);
+                console.log(resp);
+            } else {
+                throw new Error("Al parecer no existe un objeto con ese ID.");
+            }
+        })
+        .catch((err) => {
+            console.log(`Ocurrió el siguiente error: \n ${err}`);
+        });
         
     // await products.deleteProduct(id).then((resp) => {
     //     if (resp) {
