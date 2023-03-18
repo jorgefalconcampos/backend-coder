@@ -1,6 +1,6 @@
 import path from "path";
 import express from "express";
-import ProductManager from "./ProductManager/productManager.js";
+import ProductManager from "../ProductManager/productManager.js";
 
 const app = express();
 const PORT = 8080;
@@ -14,38 +14,25 @@ const dirPath = path.join(__dirname, "/ProductManager/files/productos.json")
 const products = new ProductManager(dirPath);
 
 app.get("/products", async (req, res) => {
-    await products.getProducts().then((resp) => {
-        res.json(resp);
+    const limit = req.query.limit;
+    await products.getProducts().then((resp) => { 
+        if(limit && !isNaN(limit)) {
+            res.json(resp.slice(0, parseInt(limit)));
+        }
+        else {
+            res.json(resp);
+        }
     });
 });
 
-
-
 app.get("/products/:pid", async (req, res) => {
-
     const { pid } = req.params;
-    
+
     await products.getProductById(parseInt(pid)).then((resp) => {
-        if (resp !== null) {
-            // res.status(200).send(`Se encontró un producto con el ID ${pid}`);
-            res.json(resp);
-        }
-        else {
-            res.status(404).send(`No se encontró un producto con el ID ${pid}`);
-        }        
-        // return res.json(resp);
+        if (resp !== null) { res.json(resp); }
+        else { res.status(404).send(`No se encontró un producto con el ID ${pid}`); }        
     });
 })
-
-
-
-
-
-
-
-
-
-
 
 app.listen(PORT, () => {
     console.log(`Servidor iniciado en el puerto ${PORT}`);
