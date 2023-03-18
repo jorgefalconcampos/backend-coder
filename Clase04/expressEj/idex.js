@@ -19,7 +19,7 @@ app.get("/usuario/:nombre/:apellido", (req, res) => {
     res.send("holio")
 })
 
-app.get("/usuarios", (req, res) => {
+app.get("/api/usuarios", (req, res) => {
     res.send(users);
 })
 
@@ -32,6 +32,7 @@ app.get("/usuario/:userId", (req, res) => {
 
     res.send(usuarioAbuscar);
 })
+
 
 
 
@@ -54,6 +55,74 @@ app.get("/api/query", (req, res) => {
 })
 
 
+app.get("/api/usuarios/:userId", (req, res) => {
+    const { userId } = req.params;
+    const usuario = users.find((usuario) => usuario.id === userId);
+    if (!usuario) return res.status(400).send("No se encontró el usuario");
+    res.status(200).send(usuario);
+})
+
+
+
+app.post("/api/usuarios", (req, res) => {
+    const { nombre, apellido } = req.body;
+
+    if(!nombre || !apellido) {
+        return res.status(400).send("Faltan datos");
+    }
+
+    users.push({nombre, apellido});
+
+    res.status(200).send({
+        status: 'success',
+        payload: users
+    })
+})
+
+
+app.put("/api/usuarios/:userId", (req, res) => { 
+
+    const { userId } = req.params;
+    const { nombre, apellido } = req.body;
+
+
+    if(!userId) {
+        return res.status(400).send("Faltan el ID");
+    }
+
+    if(!nombre || !apellido) {
+        return res.status(400).send("Faltan datos");
+    }
+
+    const userIndex = users.findIndex((user) => user.id === userId);
+
+    users[userIndex] = { id: userId, nombre, apellido }
+
+    res.status(200).json({
+        status: 'success',
+        payload: users
+    })
+})
+
+app.delete("/api/usuarios/:userId", (req, res) => {
+
+    const { userId } = req.params;
+
+    if(!userId) {
+        return res.status(400).send("Faltan el ID");
+    }
+
+    const userIndex = users.findIndex((user) => user.id === userId);
+
+    if (userIndex === -1) return res.status(400).send("No se encontró el usuario");
+
+    users.splice(userIndex, 1);
+
+    res.status(200).json({
+        status: 'success',
+        payload: users
+    })
+})
 
 
 app.listen(8080, () => {
