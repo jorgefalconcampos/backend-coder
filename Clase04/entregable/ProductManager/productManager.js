@@ -46,13 +46,7 @@ class ProductManager {
         }
     }
 
-    getProducts = async () => {
-
-        
-        // REAL B:\Dev\CoderHouse\[ Práctica ]\4) Backend\back\Clase04\entregable\ProductManager\productManager.js
-
-        
-        // B:\Dev\CoderHouse\[ Práctica ]\4) Backend\back\Clase04\entregable\src\ProductManager\files\productos.json
+    getProducts = async () => {        
         try {
             if (fs.existsSync(this.path) && (fs.readFileSync(this.path).length !== 0)) { 
                 const products = await fs.promises.readFile(this.path, 'utf-8');
@@ -121,6 +115,3 @@ class ProductManager {
 }
 
 export default ProductManager
-// module.exports = {
-//     ProductManager
-// }
