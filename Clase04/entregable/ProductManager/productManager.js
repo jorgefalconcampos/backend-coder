@@ -20,14 +20,6 @@ class ProductManager {
         if (title && description && price && typeof(price) === "number" && thumbnail && code && stock && typeof(stock) === "number" ) { 
             return true;
         } else { return false; }
-        // const { title, description, price, thumbnail, code, stock } = data;
-        // if (title && description && price && !isNaN(price) && thumbnail && code && stock) {
-        //     return { title, description, price, thumbnail, code, stock };
-        // }
-        // else {
-        //     throw new Error("Faltan campos o estos tienen un formato incorrecto.");
-        // }
-        
     }
 
     addProduct = async (newProduct) => {
@@ -55,6 +47,12 @@ class ProductManager {
     }
 
     getProducts = async () => {
+
+        
+        // REAL B:\Dev\CoderHouse\[ Práctica ]\4) Backend\back\Clase04\entregable\ProductManager\productManager.js
+
+        
+        // B:\Dev\CoderHouse\[ Práctica ]\4) Backend\back\Clase04\entregable\src\ProductManager\files\productos.json
         try {
             if (fs.existsSync(this.path) && (fs.readFileSync(this.path).length !== 0)) { 
                 const products = await fs.promises.readFile(this.path, 'utf-8');
