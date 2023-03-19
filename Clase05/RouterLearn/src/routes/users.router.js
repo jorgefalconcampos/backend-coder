@@ -17,8 +17,18 @@ const mid1 = (req, res, next) => {
 
 };
 
+// usersRouter.get("/", (req, res) => {
+//     res.json({users});
+// })
+
 usersRouter.get("/", (req, res) => {
-    res.json({users});
+    
+    let usr = {
+        name: "Jorge",
+        last_name: "Campos"
+    };
+
+    res.render("index", usr);
 })
 
 

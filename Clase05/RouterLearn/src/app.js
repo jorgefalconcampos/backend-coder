@@ -1,7 +1,9 @@
 const express = require("express");
 
 const { usersRouter } = require("./routes/users.router");
-const { productosRouter } = require("./routes/productos.router")
+const { productosRouter } = require("./routes/productos.router");
+// const viewsRouter = require("./views/")
+// const { __dirname } = require("./utils/utils");
 
 const app = express();
 const PORT = 4000;
@@ -13,10 +15,17 @@ const mid2 = (req, res, next)=>{
 }
 
 
+// handlebars config
+const handlebars = require("express-handlebars");
+
+app.engine('handlebars', handlebars.engine())
+app.set('view engine','handlebars');
+app.set('views', __dirname + '/views')
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use("/static", express.static(__dirname + "/public"));
+
 
 app.use("/api/usuarios", usersRouter);
 
