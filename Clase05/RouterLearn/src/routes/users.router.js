@@ -24,27 +24,42 @@ const mid1 = (req, res, next) => {
 usersRouter.get("/", (req, res) => {
     
     let usr = {
-        name: "Jorge",
-        last_name: "Campos"
+        nombre: "Jorge",
+        apellido: "Campos",
+        role: "admin"
     };
 
-    res.render("index", usr);
+    res.render("index", {
+        user: usr,
+        isAdmin: usr.role === "admin",
+        users
+    });
 })
 
+let arrUsers = [];
 
 usersRouter.post("/", mid1, (req, res) => {
-    const { nombre, apellido, genero } = req.body;
+    const { name, last_name, email, phone } = req.body;
 
-    users.push({
-        id: Date.now(),
-        nombre,
-        apellido,
-        genero
+    arrUsers.push({
+        id: Date.now(), name, last_name, email, phone
     });
 
+    // const { nombre, apellido, genero } = req.body;
+
+    // users.push({
+    //     id: Date.now(),
+    //     nombre,
+    //     apellido,
+    //     genero
+    // });
+
     return res.json({
-        users,
-        dato1: req.dato1
+        status: "success",
+        message: "agregado ok",
+        arrUsers
+        // users,
+        // dato1: req.dato1
     })
 })
 

@@ -1,3 +1,18 @@
 <div>
-    <h1>Hola {{ name }}!! </h1>
+    <h1>Hola {{ user.nombre }} {{ user.apellido }} !!  </h1>
 </div>
+
+{{#if isAdmin}} 
+    <h1> khe veo, un admin :D </h1>
+    <h2> lista de usuarios </h2>
+    {{#each users}}
+        <div>
+            <p>{{ this.nombre }} {{ this.apellido }} | {{ this.genero }}</p>
+        </div>
+    {{/each}}
+{{else}}
+    <h1> noob </h1>
+{{/if}} 
+
+
+<script src="/static/js/index.js"></script>
