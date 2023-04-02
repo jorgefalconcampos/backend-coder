@@ -2,9 +2,12 @@ const { Router } = require('express');
 
 const viewsRouter = Router();
 
+// viewsRouter.get("/", (req, res) => {
+//     res.render("chat", {});
+// })
 
 viewsRouter.get("/", (req, res) => {
-    res.render("index");
+    res.render("index", {});
 })
 
 viewsRouter.get("/register", (req, res) => {

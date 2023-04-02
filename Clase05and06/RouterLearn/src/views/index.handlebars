@@ -2,7 +2,9 @@
     <h1>Hola {{ user.nombre }} {{ user.apellido }} !!  </h1>
 </div>
 
-{{#if isAdmin}} 
+todo listo para socket (o no?)
+
+{{!-- {{#if isAdmin}} 
     <h1> khe veo, un admin :D </h1>
     <h2> lista de usuarios </h2>
     {{#each users}}
@@ -12,7 +14,8 @@
     {{/each}}
 {{else}}
     <h1> noob </h1>
-{{/if}} 
+{{/if}}  --}}
 
 
-<script src="/static/js/index.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/index.js"></script>
