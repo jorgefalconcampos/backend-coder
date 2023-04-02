@@ -46,6 +46,7 @@ const httpServer = app.listen(PORT, (err) => {
 });
 
 const socketServer = new Server(httpServer);
+const logs = [];
 
 socketServer.on("connection", socket => {
     console.log((`Cliente conectado:`));
@@ -54,9 +55,13 @@ socketServer.on("connection", socket => {
 
     });
 
-    socket.emit("evento-para-socket-individual", "Este mensaje solo lo debe recibir el socket");
-    socket.broadcast.emit("evento-para-todos-menos-para-el-socket-actual", "Esto lo verán todos los sockets conectados menos el que lo envió");
-    socketServer.emit("evento-para-todos", "Lo reciben absolutamente todos los sockets conectados"); 
+    // socket.emit("evento-para-socket-individual", "Este mensaje solo lo debe recibir el socket");
+    // socket.broadcast.emit("evento-para-todos-menos-para-el-socket-actual", "Esto lo verán todos los sockets conectados menos el que lo envió");
+    // socketServer.emit("evento-para-todos", "Lo reciben absolutamente todos los sockets conectados"); 
 
+    socket.on("message2", data => {
+        logs.push({socketId: socket.id, message: data});
+        socketServer.emit("log", {logs});
+    })
 
 });
