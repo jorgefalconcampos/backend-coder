@@ -5,6 +5,7 @@ const { productosRouter } = require("./routes/productos.router");
 const { viewsRouter } = require("./routes/views.router");
 
 const { Server } = require("socket.io");
+require("dotenv").config();
 
 const app = express();
 const PORT = process.env.PORT || 8080;

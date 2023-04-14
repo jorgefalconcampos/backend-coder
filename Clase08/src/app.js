@@ -1,12 +1,17 @@
 const express = require("express");
 const { productsRouter } = require("./routes/products_router")
 const { cartsRouter } = require("./routes/carts_router")
+const { usersRouter } = require("./routes/users_router")
 // const { realTimeProductsRouter } = require("./routes/real_time_products")
 const app = express();
 const PORT = 8080;
 const { Server } = require("socket.io");
 const multer = require("multer");
 const upload = multer();
+
+const { objConfig } = require("./config/config.js")
+
+objConfig.connectDB();
 
 // configuración de handlebars
 const handlebars = require("express-handlebars");
@@ -21,6 +26,7 @@ app.use(express.static(__dirname + "/public"));
 
 app.use("/api/products", productsRouter);
 app.use("/api/carts", cartsRouter);
+app.use("/api/users", usersRouter);
 // app.use("/realtimeproducts", realTimeProductsRouter);
 
 
@@ -62,3 +68,6 @@ app.post("/realtimeproducts", upload.any(), (req, res) => {
     socketServer.emit("nuevo-producto", products);
     res.sendStatus(200);
 });
+
+
+// te quedaste en 1:24:13
