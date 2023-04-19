@@ -1,28 +1,37 @@
 const { Router } = require("express");
+const productsManager = require("../managerDaos/managerProductMongo");
 
 const router = Router();
 
-router.get("/", (req, res) => {
-    res.send("get products");
+router.get("/", async (req, res) => {
+  const resp = await productsManager.getAllProducts();
+  res.send(resp);
 });
 
 router.get("/:pid", (req, res) => {
-    res.send("get product by ID")
+  res.send("get product be id");
 });
 
-router.post("/", (req, res) => {
-    res.send("create")
+router.post("/", async (req, res) => {
+  try {
+    const newProduct = req.body;
+    const resp = await productsManager.addProduct(newProduct);
+    res.send(resp);
+  } catch (err) {
+    console.log("erroooooor: " + err);
+  }
 });
 
-router.put("/:id", (req, res) => {
-    res.send("update")
+router.put("/:pid", (req, res) => {
+  res.send("update product");
 });
-
 
 router.delete("/:pid", (req, res) => {
-    res.send("delete")
+  res.send("delet product");
 });
 
-
+router.delete("/:pid", (req, res) => {
+  res.send("delete");
+});
 
 module.exports = router;

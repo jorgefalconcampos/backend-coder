@@ -1,5 +1,7 @@
 const express = require("express");
 const routerApp = require("./routes");
+const { objConfig } = require("../../Clase08_integradora/src/config/config");
+
 const app = express();
 
 app.use(express.json());
@@ -12,9 +14,11 @@ app.use(routerApp);
 
 const PORT = 8080;
 
+objConfig.connectDB();
+
 app.listen(PORT, (err) => {
     if (err) {
         console.log(err);
     }
-    console.log(`Server escuchando en el puerto: ${PORT}`);
+    console.log(`Server escuchando en el puerto: http://localhost:${PORT}`);
 });
