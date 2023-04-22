@@ -14,7 +14,6 @@ app.use(routerApp);
 
 const PORT = 8080;
 
-objConfig.connectDB();
 
 app.listen(PORT, (err) => {
     if (err) {
@@ -22,3 +21,5 @@ app.listen(PORT, (err) => {
     }
     console.log(`Server escuchando en el puerto: http://localhost:${PORT}`);
 });
+
+objConfig.connectDB();
